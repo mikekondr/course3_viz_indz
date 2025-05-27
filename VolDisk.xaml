@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="HanoiTower.VolDisk"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HanoiTower"
+             mc:Ignorable="d" 
+             d:DesignHeight="25" d:DesignWidth="300">
+    <UserControl.Resources>
+        <LinearGradientBrush x:Key="DiskHighlightBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#80FFFFFF" Offset="0.0"/>
+            <GradientStop Color="#00FFFFFF" Offset="0.7"/>
+        </LinearGradientBrush>
+        <DropShadowEffect x:Key="DiskShadowEffect" Color="Black" Direction="270" ShadowDepth="5" Opacity="0.5" BlurRadius="10"/>
+        <DropShadowEffect x:Key="DiskHighlightEffect" Color="WhiteSmoke" ShadowDepth="0" BlurRadius="20"/>
+        <Style x:Key="HighlightRectStyle" TargetType="Rectangle">
+            <Setter Property="Effect" Value="{StaticResource DiskShadowEffect}"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
+                        <Condition Binding="{Binding DisableTrigger, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Effect" Value="{StaticResource DiskHighlightEffect}"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <!-- Основний прямокутник -->
+        <Rectangle x:Name="MainRect"
+           RadiusX="15" RadiusY="15"
+           Style="{StaticResource HighlightRectStyle}"/>
+        <!-- Блиск -->
+        <Rectangle Fill="{StaticResource DiskHighlightBrush}"
+           RadiusX="15" RadiusY="15"
+           Height="15" VerticalAlignment="Top"
+           IsHitTestVisible="False"/>
+    </Grid>
+</UserControl>
