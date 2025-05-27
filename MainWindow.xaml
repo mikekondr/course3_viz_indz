@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HanoiTower"
         mc:Ignorable="d"
         Title="MainWindow" Height="535" Width="800" MinHeight="535" MinWidth="800"
-        Loaded="Window_Loaded" SizeChanged="Window_SizeChanged">
+        Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" Closing="Window_Closing">
     <Window.Background>
         <ImageBrush ImageSource="background.jpg" Stretch="Fill"/>
     </Window.Background>
@@ -102,6 +102,9 @@
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray"/>
+                            </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -182,6 +185,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -201,14 +205,17 @@
             </StackPanel>
 
             <Button Grid.Row="2" Height="35" Width="150" Content="НОВА ГРА" HorizontalAlignment="Center"
-                    Click="NewGame_Click"/>
-            
-            <StackPanel Grid.Row="3" Height="55" Orientation="Horizontal" HorizontalAlignment="Left">
+                    Click="NewGame_Click" Name="btnNewGame"/>
+
+            <Button Grid.Row="3" Height="35" Width="150" Content="ДЕМО" HorizontalAlignment="Center"
+                    Click="Demo_Click"/>
+
+            <StackPanel Grid.Row="4" Height="55" Orientation="Horizontal" HorizontalAlignment="Left">
                 <Label Content="Кількість ходів:" Width="160"/>
                 <Label Width="50" Content="{Binding Moves}"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="4" Height="55" Orientation="Horizontal" HorizontalAlignment="Left">
+            <StackPanel Grid.Row="5" Height="55" Orientation="Horizontal" HorizontalAlignment="Left">
                 <Label Content="Час гри:" Width="135"/>
                 <Label Width="75" Content="{Binding Time}"/>
             </StackPanel>

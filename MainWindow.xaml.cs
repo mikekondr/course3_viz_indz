@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace HanoiTower
 {
@@ -16,10 +17,13 @@ namespace HanoiTower
         private AdornerLayer _adornerLayer;
 
         private int _total;
-        public int Total {
+        public int Total
+        {
             get => _total;
-            set {
-                if (_total != value) {
+            set
+            {
+                if (_total != value)
+                {
                     _total = value;
                     OnPropertyChanged(nameof(Total));
                     OnPropertyChanged(nameof(MinMoves));
@@ -105,7 +109,10 @@ namespace HanoiTower
             _adornerLayer = null;
             mainGrid.Tag = null;
             _timer.Stop();
-            Finish.Visibility = Visibility.Collapsed;   
+            Finish.Visibility = Visibility.Collapsed;
+            btnNewGame.IsEnabled = true;
+            minus.IsEnabled = true;
+            plus.IsEnabled = true;
 
             Moves = 0;
             Time = 0;
@@ -328,6 +335,57 @@ namespace HanoiTower
                     NewGame();
                 }
             }
+        }
+
+        private void Demo_Click(object sender, RoutedEventArgs e)
+        {
+            if (btnNewGame.IsEnabled == false)
+            {
+                //stop Demo
+                btnNewGame.IsEnabled = true;
+                return;
+            }
+
+            if (Moves > 0)
+            {
+                _timer.Stop();
+                var result = MessageBox.Show("Це розпочне нову гру! Всі поточні дані будуть втрачені. Продовжити?", "Підтвердження", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.No)
+                {
+                    _timer.Start();
+                    return;
+                }
+            }
+            NewGame();
+
+            btnNewGame.IsEnabled = false;
+            minus.IsEnabled = false;
+            plus.IsEnabled = false;
+
+            Step(Total, panel1, panel3, panel2);
+        }
+
+        private void Step(int k, DockPanel src, DockPanel dst, DockPanel tmp)
+        {
+            if (k == 0) return;
+
+            Step(k - 1, src, tmp, dst);
+            if (btnNewGame.IsEnabled) return;
+            MoveDisk(src.Children[src.Children.Count - 1] as VolDisk, dst);
+            DoEvents();
+            System.Threading.Thread.Sleep(1500 / (Total - 1));
+            Step(k - 1, tmp, dst, src);
+        }
+        public static void DoEvents()
+        {
+            Application.Current.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Background,
+                                                  new Action(delegate { }));
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (btnNewGame.IsEnabled == false)
+                btnNewGame.IsEnabled = true;
         }
     }
 }
