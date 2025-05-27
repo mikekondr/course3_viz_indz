@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HanoiTower"
         mc:Ignorable="d"
-        Title="MainWindow" Height="535" Width="800" MinHeight="535" MinWidth="800"
+        Title="Ханоська вежа" Height="535" Width="800" MinHeight="535" MinWidth="800"
         Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" Closing="Window_Closing">
     <Window.Background>
         <ImageBrush ImageSource="background.jpg" Stretch="Fill"/>
